@@ -6,6 +6,7 @@
       type="search"
       placeholder="Search for books to add to your reading list"
       formControlName="term"
+      (keyup)="search($event.target.value)"
     />
     <button mat-icon-button matSuffix>
       <mat-icon>search</mat-icon>

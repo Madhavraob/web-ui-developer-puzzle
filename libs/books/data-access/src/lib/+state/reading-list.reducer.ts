@@ -47,10 +47,12 @@ const readingListReducer = createReducer(
       error: action.error
     };
   }),
-  on(ReadingListActions.addToReadingList, (state, action) =>
+  /**update the state on api success */
+  on(ReadingListActions.confirmedAddToReadingList, (state, action) =>
     readingListAdapter.addOne({ bookId: action.book.id, ...action.book }, state)
   ),
-  on(ReadingListActions.removeFromReadingList, (state, action) =>
+  /**update the state on api success */
+  on(ReadingListActions.confirmedRemoveFromReadingList, (state, action) =>
     readingListAdapter.removeOne(action.item.bookId, state)
   )
 );

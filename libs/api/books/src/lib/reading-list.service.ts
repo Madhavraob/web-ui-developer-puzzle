@@ -28,4 +28,16 @@ export class ReadingListService {
       return list.filter(x => x.bookId !== id);
     });
   }
+
+  async completeReading(id: string): Promise<void> {
+    this.storage.update(list => {
+      return list.map(x => {
+        if (x.bookId == id) {
+          x.finished = true;
+          x.finishedDate = new Date().toUTCString();
+        }
+        return x;
+      });
+    });
+  }
 }

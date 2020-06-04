@@ -54,6 +54,13 @@ const readingListReducer = createReducer(
   /**update the state on api success */
   on(ReadingListActions.confirmedRemoveFromReadingList, (state, action) =>
     readingListAdapter.removeOne(action.item.bookId, state)
+  ),
+  on(ReadingListActions.confirmCompleteReading, (state, action) =>
+    readingListAdapter.updateOne({
+      ...action.item, id: action.item.bookId,
+      changes: { finished: true, finishedDate: new Date().toUTCString() }
+    },
+      state)
   )
 );
 

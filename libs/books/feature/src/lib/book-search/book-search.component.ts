@@ -9,6 +9,9 @@ import {
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
+import { Actions } from '@ngrx/effects';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'tmo-book-search',
@@ -24,8 +27,10 @@ export class BookSearchComponent implements OnInit {
 
   constructor(
     private readonly store: Store,
-    private readonly fb: FormBuilder
-  ) {}
+    private readonly fb: FormBuilder,
+    private action$: Actions,
+    private _snackBar: MatSnackBar
+  ) { }
 
   get searchTerm(): string {
     return this.searchForm.value.term;
@@ -35,6 +40,28 @@ export class BookSearchComponent implements OnInit {
     this.store.select(getAllBooks).subscribe(books => {
       this.books = books;
     });
+
+    this.action$.subscribe((action) => {
+      if (action.type === '[Reading List] Confirmed add to list') {
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            action: 'Added',
+            undoAction: 'removeFromReadingList',
+            book: action['book']
+          },
+          duration: 3000
+        });
+      } else if (action.type === '[Reading List] Confirmed remove from list') {
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            action: 'Removed',
+            undoAction: 'addToReadingList',
+            book: action['item']
+          },
+          duration: 3000
+        });
+      }
+    })
   }
 
   formatDate(date: void | string) {

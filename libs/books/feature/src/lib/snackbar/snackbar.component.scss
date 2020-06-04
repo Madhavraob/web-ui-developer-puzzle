@@ -1,0 +1,9 @@
+@import 'variables.scss';
+
+div {
+  margin-right: $spacing-xs;
+}
+
+.message {
+  display: flex;
+}

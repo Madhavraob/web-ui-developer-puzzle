@@ -8,14 +8,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { TotalCountComponent } from './total-count/total-count.component';
 import { ReadingListComponent } from './reading-list/reading-list.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
 
 const EXPORTS = [
   BookSearchComponent,
   TotalCountComponent,
-  ReadingListComponent
+  ReadingListComponent,
+  SnackbarComponent
 ];
 
 @NgModule({
@@ -34,6 +36,9 @@ const EXPORTS = [
     BooksDataAccessModule
   ],
   exports: [...EXPORTS],
-  declarations: [...EXPORTS]
+  declarations: [...EXPORTS],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
+  ]
 })
-export class BooksFeatureModule {}
+export class BooksFeatureModule { }
